@@ -30,7 +30,7 @@
 // let messege = `Are you ${name} ?`
 // console.log(messege)
 
-типы данных 
+// типы данных
 String
 number
 Boolean
