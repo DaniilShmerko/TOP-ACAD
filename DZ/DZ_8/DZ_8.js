@@ -1,179 +1,203 @@
-// 1 Создаем объект автомобиля
-let car = {};
+//1 zadanie
+// Класс простого маркера
+class SimpleMarker {
+  constructor(color, inkLevel = 100) {
+    this.color = color;
+    this.inkLevel = inkLevel;
+  }
 
-// Функция для ввода информации об автомобиле через prompt
-function inputCarInfo() {
-    car.производитель = prompt("Введите производителя автомобиля:");
-    car.модель = prompt("Введите модель автомобиля:");
-    car["год выпуска"] = prompt("Введите год выпуска автомобиля:");
-    car["средняя скорость"] = prompt("Введите среднюю скорость автомобиля:");
-    alert("Информация об автомобиле введена успешно!");
+  print(text) {
+    for (let i = 0; i < text.length; i++) {
+      if (this.inkLevel >= 0.5) {
+        console.log("%c" + text[i], `color: ${this.color}`);
+        this.inkLevel -= 0.5;
+      } else {
+        break;
+      }
+    }
+  }
 }
 
-// Функция для вывода на экран информации об автомобиле
-function showCarInfo(car) {
-    let info = "Производитель: " + car.производитель + "\n";
-    info += "Модель: " + car.модель + "\n";
-    info += "Год выпуска: " + car["год выпуска"] + "\n";
-    info += "Средняя скорость: " + car["средняя скорость"] + " км/ч";
-    alert(info);
+// Класс заправляющегося маркера
+class RefillableMarker extends SimpleMarker {
+  constructor(color, inkLevel = 100) {
+    super(color, inkLevel);
+  }
+
+  refill() {
+    this.inkLevel = 100;
+  }
 }
 
-// Функция для подсчета времени и перерывов
-function calculateTimeAndBreaks() {
-    let distance = prompt("Введите расстояние, которое нужно пройти:");
-    let averageSpeed = car["средняя скорость"];
-    let time = distance / averageSpeed;
-    let breaks = Math.floor(time / 4);
-    time += breaks;
-    alert("Необходимое время для преодоления расстояния: " + time + " ч");
+// Демонстрация работы маркеров
+
+// Создание маркеров
+const simpleMarker = new SimpleMarker("red");
+const refillableMarker = new RefillableMarker("blue");
+
+// Печать текста с помощью простого маркера
+simpleMarker.print("Hello, world!");
+
+// Печать текста с помощью заправляющегося маркера
+refillableMarker.print("This is a refillable marker.");
+
+// Заправка заправляющегося маркера
+refillableMarker.refill();
+
+// Печать текста с помощью заправляющегося маркера после заправки
+refillableMarker.print("The marker has been refilled.");
+
+//2 zadanie
+class ExtendedDate extends Date {
+  // Метод для вывода даты текстом
+  getDateText() {
+    const monthNames = [
+      "января",
+      "февраля",
+      "марта",
+      "апреля",
+      "мая",
+      "июня",
+      "июля",
+      "августа",
+      "сентября",
+      "октября",
+      "ноября",
+      "декабря",
+    ];
+
+    const day = this.getDate();
+    const month = monthNames[this.getMonth()];
+    return `${day} ${month}`;
+  }
+
+  // Метод для проверки – это прошедшая дата или будущая
+  isFutureDate() {
+    const now = new Date();
+    return this.getTime() >= now.getTime();
+  }
+
+  // Метод для проверки – високосный год или нет
+  isLeapYear() {
+    const year = this.getFullYear();
+    return ((year % 4 === 0) && (year % 100 !== 0)) || (year % 400 === 0);
+  }
+
+  // Метод для получения следующей даты
+  getNextDate() {
+    const nextDate = new Date(this.getTime());
+    nextDate.setDate(this.getDate() + 1);
+    return nextDate;
+  }
 }
 
-// Вызываем функции для ввода информации об автомобиле, вывода информации и расчета времени
-inputCarInfo();
-showCarInfo(car);
-calculateTimeAndBreaks();
+// Создание объекта ExtendedDate
+const date = new ExtendedDate(2024, 11, 25);
 
+// Демонстрация новых методов
+console.log("Дата текстом:", date.getDateText());
+console.log("Будущая дата:", date.isFutureDate());
+console.log("Високосный год:", date.isLeapYear());
 
+const nextDate = date.getNextDate();
+console.log("Следующая дата:", nextDate.getDateText());
 
-// 2 Создаем объект для представления дробей
-// Запрашиваем у пользователя ввод числителя и знаменателя для двух дробей
-const numerator1 = parseInt(prompt('Введите числитель первой дроби:'));
-const denominator1 = parseInt(prompt('Введите знаменатель первой дроби:'));
+//3 zadanie
+class Employee {
+  constructor(name, surname, position, salary) {
+    this.name = name;
+    this.surname = surname;
+    this.position = position;
+    this.salary = salary;
+  }
 
-const numerator2 = parseInt(prompt('Введите числитель второй дроби:'));
-const denominator2 = parseInt(prompt('Введите знаменатель второй дроби:'));
-
-// Создаем объекты для представления дробей
-const fraction1 = {
-  numerator: numerator1,
-  denominator: denominator1
-};
-
-const fraction2 = {
-  numerator: numerator2,
-  denominator: denominator2
-};
-
-// Функция сложения двух дробей
-function addFractions(fraction1, fraction2) {
-  const result = {
-    numerator: fraction1.numerator * fraction2.denominator + fraction2.numerator * fraction1.denominator,
-    denominator: fraction1.denominator * fraction2.denominator
-  };
-  return result;
+  getFullName() {
+    return `${this.name} ${this.surname}`;
+  }
 }
 
-// Функция вычитания двух дробей
-function subtractFractions(fraction1, fraction2) {
-  const result = {
-    numerator: fraction1.numerator * fraction2.denominator - fraction2.numerator * fraction1.denominator,
-    denominator: fraction1.denominator * fraction2.denominator
-  };
-  return result;
+class EmpTable {
+  constructor(employees) {
+    this.employees = employees;
+  }
+
+  getHtml() {
+    let html = `<table>
+      <tr>
+        <th>Имя</th>
+        <th>Фамилия</th>
+        <th>Должность</th>
+        <th>Зарплата</th>
+      </tr>`;
+
+    for (const employee of this.employees) {
+      html += `<tr>
+        <td>${employee.name}</td>
+        <td>${employee.surname}</td>
+        <td>${employee.position}</td>
+        <td>${employee.salary}</td>
+      </tr>`;
+    }
+
+    html += `</table>`;
+
+    return html;
+  }
 }
 
-// Функция умножения двух дробей
-function multiplyFractions(fraction1, fraction2) {
-  const result = {
-    numerator: fraction1.numerator * fraction2.numerator,
-    denominator: fraction1.denominator * fraction2.denominator
-  };
-  return result;
+// Создание массива работников
+const employees = [
+  new Employee("Иван", "Иванов", "Менеджер", 50000),
+  new Employee("Петр", "Петров", "Программист", 70000),
+  new Employee("Ольга", "Сидорова", "Бухгалтер", 45000),
+];
+
+// Создание объекта EmpTable
+const empTable = new EmpTable(employees);
+
+// Получение HTML-кода
+const html = empTable.getHtml();
+
+// Вывод HTML-кода на экран
+console.log(html);
+
+//4 zadanie
+class StyledEmpTable extends EmpTable {
+  constructor(employees) {
+    super(employees);
+  }
+
+  getStyles() {
+    return `<style>
+      table {
+        border-collapse: collapse;
+        width: 100%;
+      }
+
+      th, td {
+        border: 1px solid black;
+        padding: 10px;
+      }
+    </style>`;
+  }
+
+  getHtml() {
+    return this.getStyles() + super.getHtml();
+  }
 }
 
-// Функция деления двух дробей
-function divideFractions(fraction1, fraction2) {
-  const result = {
-    numerator: fraction1.numerator * fraction2.denominator,
-    denominator: fraction1.denominator * fraction2.numerator
-  };
-  return result;
-}
+// Создание массива работников
+const employees1 = [
+  new Employee("Иван", "Иванов", "Менеджер", 50000),
+  new Employee("Петр", "Петров", "Программист", 70000),
+  new Employee("Ольга", "Сидорова", "Бухгалтер", 45000),
+];
 
-// Функция сокращения дроби
-function reduceFraction(fraction) {
-  const gcd = (a, b) => (b ? gcd(b, a % b) : a);
-  const divisor = gcd(fraction.numerator, fraction.denominator);
-  fraction.numerator /= divisor;
-  fraction.denominator /= divisor;
-  return fraction;
-}
+// Создание объекта StyledEmpTable
+const styledEmpTable = new StyledEmpTable(employees1);
 
-// Пример использования
-const sum = addFractions(fraction1, fraction2);
-alert(`Сумма дробей: ${sum.numerator}/${sum.denominator}`);
+// Получение HTML-кода
+const html2 = styledEmpTable.getHtml();
 
-const difference = subtractFractions(fraction1, fraction2);
-alert(`Разность дробей: ${difference.numerator}/${difference.denominator}`);
-
-const product = multiplyFractions(fraction1, fraction2);
-alert(`Произведение дробей: ${product.numerator}/${product.denominator}`);
-
-const quotient = divideFractions(fraction1, fraction2);
-alert(`Частное дробей: ${quotient.numerator}/${quotient.denominator}`);
-
-const reducedFraction1 = reduceFraction(fraction1);
-alert(`Сокращенная первая дробь: ${reducedFraction1.numerator}/${reducedFraction1.denominator}`);
-
-const reducedFraction2 = reduceFraction(fraction2);
-alert(`Сокращенная вторая дробь: ${reducedFraction2.numerator}/${reducedFraction2.denominator}`);
-
-
-
-// 3 Создаем объект, описывающий время
-// Запрос времени у пользователя
-let hours = parseInt(prompt("Введите часы:"));
-let minutes = parseInt(prompt("Введите минуты:"));
-let seconds = parseInt(prompt("Введите секунды:"));
-
-// Создаем объект, описывающий время
-let time = {
-    hours: hours,
-    minutes: minutes,
-    seconds: seconds
-};
-
-// Функция вывода времени на экран
-function displayTime() {
-    alert(`${time.hours}:${time.minutes}:${time.seconds}`);
-}
-
-// Функция изменения времени на переданное количество секунд
-function addSeconds(seconds) {
-    time.seconds += seconds;
-    time.minutes += Math.floor(time.seconds / 60);
-    time.seconds %= 60;
-    time.hours += Math.floor(time.minutes / 60);
-    time.minutes %= 60;
-    time.hours %= 24;
-}
-
-// Функция изменения времени на переданное количество минут
-function addMinutes(minutes) {
-    time.minutes += minutes;
-    time.hours += Math.floor(time.minutes / 60);
-    time.minutes %= 60;
-    time.hours %= 24;
-}
-
-// Функция изменения времени на переданное количество часов
-function addHours(hours) {
-    time.hours += hours;
-    time.hours %= 24;
-}
-
-// Пример использования функций
-displayTime();
-
-let secondsToAdd = parseInt(prompt("Введите количество секунд для добавления:"));
-addSeconds(secondsToAdd);
-displayTime();
-
-let minutesToAdd = parseInt(prompt("Введите количество минут для добавления:"));
-addMinutes(minutesToAdd);
-displayTime();
-
-let hoursToAdd = parseInt(prompt("Введите количество часов для добавления:"));
-addHours(hoursToAdd);
-displayTime();
+// Вывод HTML-кода на экран
+console.log(html2);
